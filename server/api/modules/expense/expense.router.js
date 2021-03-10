@@ -1,6 +1,22 @@
-const router = require('express').Router();
+const router = require("express").Router();
+const expenseController = require("./expense.controller");
 
-// write all routing code and logic here
+router.get("/", (req, res) => {
+  expenseController.getExpense().then((response) => {
+    res.status(response.status).send(response);
+  });
+});
 
+router.post("/", (req, res) => {
+  expenseController.addExpense(req.body).then((response) => {
+    res.status(response.status).send(response);
+  });
+});
+
+router.put("/:id", (req, res) => {
+  expenseController.updateExpense(req.params.id, req.body).then((response) => {
+    res.status(response.status).send(response);
+  });
+});
 
 module.exports = router;
