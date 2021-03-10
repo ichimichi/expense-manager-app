@@ -12,8 +12,13 @@ const updateExpense = (id, expense) => {
   return expenseService.updatingExpense(id, expense);
 };
 
+const deleteExpense = (id) => {
+  return expenseService.deletingExpense(id);
+};
+
 module.exports = {
   addExpense,
   getExpense,
   updateExpense,
+  deleteExpense,
 };

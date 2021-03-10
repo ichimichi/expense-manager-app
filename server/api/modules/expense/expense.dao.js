@@ -62,8 +62,24 @@ const updateExpense = (id, expense) => {
   });
 };
 
+const deleteExpense = (id) => {
+  return new Promise((resolve, reject) => {
+    ExpenseModel.findOneAndDelete({ id: id }, (error) => {
+      if (error) {
+        reject({ message: "Internal Server Error", status: 500 });
+      } else {
+        resolve({
+          message: "Successfully Deleted Expense",
+          status: 200,
+        });
+      }
+    });
+  });
+};
+
 module.exports = {
   addExpense,
   getExpense,
   updateExpense,
+  deleteExpense,
 };

@@ -12,8 +12,13 @@ const updatingExpense = (id, expense) => {
   return expenseDAO.updateExpense(id, expense);
 };
 
+const deletingExpense = (id) => {
+  return expenseDAO.deleteExpense(id);
+};
+
 module.exports = {
   addingExpense,
   gettingExpense,
   updatingExpense,
+  deletingExpense,
 };

@@ -19,4 +19,10 @@ router.put("/:id", (req, res) => {
   });
 });
 
+router.delete("/:id", (req, res) => {
+  expenseController.deleteExpense(req.params.id).then((response) => {
+    res.status(response.status).send(response);
+  });
+});
+
 module.exports = router;
