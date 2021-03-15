@@ -4,6 +4,10 @@ const gettingExpense = () => {
   return expenseDAO.getExpense();
 };
 
+const gettingExpenseBetweenDates = (startDate, endDate) => {
+  return expenseDAO.getExpenseBetweenDates(startDate, endDate);
+};
+
 const addingExpense = (expense) => {
   return expenseDAO.addExpense(expense);
 };
@@ -21,4 +25,5 @@ module.exports = {
   gettingExpense,
   updatingExpense,
   deletingExpense,
+  gettingExpenseBetweenDates,
 };

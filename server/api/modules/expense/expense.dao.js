@@ -25,7 +25,7 @@ const addExpense = (expense) => {
     newExpense.category = expense.category;
     newExpense.description = expense.description;
     newExpense.amount = expense.amount;
-    newExpense.expenseDate = new Date().toISOString();
+    newExpense.expenseDate = new Date();
 
     newExpense.save((error, addedExpense) => {
       if (error) {
@@ -77,9 +77,39 @@ const deleteExpense = (id) => {
   });
 };
 
+const getExpenseBetweenDates = (startDate, endDate) => {
+  return new Promise((resolve, reject) => {
+    ExpenseModel.find(
+      endDate != "Invalid Date"
+        ? {
+            expenseDate: {
+              $gte: startDate,
+              $lt: endDate,
+            },
+          }
+        : {
+            expenseDate: {
+              $gte: startDate,
+            },
+          },
+      (error, expenses) => {
+        if (error) {
+          reject({ message: "Internal Server Error", status: 500 });
+        } else {
+          resolve({
+            message: "Successfully Retrieved all Expenses bewteen given gates",
+            expenses: expenses,
+            status: 200,
+          });
+        }
+      }
+    );
+  });
+};
 module.exports = {
   addExpense,
   getExpense,
   updateExpense,
   deleteExpense,
+  getExpenseBetweenDates,
 };

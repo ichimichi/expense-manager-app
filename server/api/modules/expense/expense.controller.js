@@ -16,9 +16,14 @@ const deleteExpense = (id) => {
   return expenseService.deletingExpense(id);
 };
 
+const getExpenseBetweenDates = (startDate, endDate) => {
+  return expenseService.gettingExpenseBetweenDates(startDate, endDate);
+};
+
 module.exports = {
   addExpense,
   getExpense,
   updateExpense,
   deleteExpense,
+  getExpenseBetweenDates,
 };

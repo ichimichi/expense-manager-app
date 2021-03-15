@@ -25,4 +25,15 @@ router.delete("/:id", (req, res) => {
   });
 });
 
+router.get("/:start/:end?", (req, res) => {
+  expenseController
+    .getExpenseBetweenDates(
+      new Date(req.params.start),
+      new Date(req.params.end)
+    )
+    .then((response) => {
+      res.status(response.status).send(response);
+    });
+});
+
 module.exports = router;
