@@ -4,10 +4,6 @@ const gettingExpense = () => {
   return expenseDAO.getExpense();
 };
 
-const gettingExpenseBetweenDates = (startDate, endDate) => {
-  return expenseDAO.getExpenseBetweenDates(startDate, endDate);
-};
-
 const addingExpense = (expense) => {
   return expenseDAO.addExpense(expense);
 };
@@ -20,10 +16,27 @@ const deletingExpense = (id) => {
   return expenseDAO.deleteExpense(id);
 };
 
+const gettingExpenseBetweenDates = (startDate, endDate) => {
+  return expenseDAO.getExpenseBetweenDates(startDate, endDate);
+};
+
+const gettingExpenseByCatergoryAndBetweenDates = (
+  category,
+  startDate,
+  endDate
+) => {
+  return expenseDAO.getExpenseByCatergoryBetweenDates(
+    category,
+    startDate,
+    endDate
+  );
+};
+
 module.exports = {
   addingExpense,
   gettingExpense,
   updatingExpense,
   deletingExpense,
   gettingExpenseBetweenDates,
+  gettingExpenseByCatergoryAndBetweenDates,
 };

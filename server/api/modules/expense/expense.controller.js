@@ -20,10 +20,19 @@ const getExpenseBetweenDates = (startDate, endDate) => {
   return expenseService.gettingExpenseBetweenDates(startDate, endDate);
 };
 
+const getExpenseByCatergoryBetweenDates = (category, startDate, endDate) => {
+  return expenseService.gettingExpenseByCatergoryAndBetweenDates(
+    category,
+    startDate,
+    endDate
+  );
+};
+
 module.exports = {
   addExpense,
   getExpense,
   updateExpense,
   deleteExpense,
   getExpenseBetweenDates,
+  getExpenseByCatergoryBetweenDates,
 };
