@@ -1,4 +1,3 @@
-const { uuid } = require("uuidv4");
 const fs = require("fs");
 
 const db = `${process.cwd()}\\server\\db.json`;
@@ -22,20 +21,29 @@ const getExpense = () => {
 
 const addExpense = (expense) => {
   return new Promise((resolve, reject) => {
-    expense.id = uuid();
     expense.expenseDate = new Date();
 
     try {
       let data = fs.readFileSync(db, "utf8");
 
       const expenses = JSON.parse(data);
+
+      expenses.map((exp) => {
+        if (exp.id === expense.id) {
+          reject({
+            message: "Expense record is already exist with the given id",
+            status: 500,
+          });
+        }
+      });
+
       expenses.push(expense);
       data = JSON.stringify(expenses, null, 4);
 
       fs.writeFileSync(db, data, "utf8");
 
       resolve({
-        message: "Successfully added Expense",
+        message: "Expense record is added successfully",
         expense: expense,
         status: 201,
       });
