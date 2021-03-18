@@ -27,6 +27,7 @@ const addExpense = (expense) => {
           "Empty data is not allowed, please provide some valid data to insert record",
         status: 500,
       });
+      throw new Error();
     }
 
     if (Object.keys(expense).length === 1 && expense.id) {
@@ -34,6 +35,7 @@ const addExpense = (expense) => {
         message: "Please provide some data to add new expense",
         status: 500,
       });
+      throw new Error();
     }
 
     if (
@@ -50,6 +52,7 @@ const addExpense = (expense) => {
           "Please provide values for id ,title, category, description, amount and expenseDate. All are mandatory data elements",
         status: 500,
       });
+      throw new Error();
     }
 
     try {
@@ -63,6 +66,7 @@ const addExpense = (expense) => {
             message: "Expense record is already exist with the given id",
             status: 500,
           });
+          throw new Error();
         }
       });
 

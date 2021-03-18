@@ -21,6 +21,18 @@ const findExpense = (expenseId, done) => {
   }
 };
 
+const getExpenses = (done) => {
+  try {
+    // convert JSON object to a string
+    let data = fs.readFileSync(db, "utf8");
+
+    const expenses = JSON.parse(data);
+    done(null, expenses);
+  } catch (err) {
+    done(err);
+  }
+};
+
 // testsuit starts from here
 describe("Expense Manager testing", function () {
   // to reset db.json after tests
@@ -199,7 +211,34 @@ describe("Expense Manager testing", function () {
     describe("Getting all expense functionality testing", function () {
       it("Should get all expense, returning array of expense ", function (done) {
         // write assertion code here and check response array length, it should be greater than zero
-        done();
+
+        request(app)
+          .get("/api/expense")
+          .expect(200)
+          .expect("Content-Type", /json/)
+          .end(function (err, res) {
+            should.not.exist(err);
+            should.exist(res.body, "Should return all inserted expenses");
+            res.body.expenses[
+              res.body.expenses.length - 1
+            ].title.should.be.equal(
+              "test3",
+              "Should match last expense text value "
+            );
+            getExpenses((error, expenses) => {
+              if (err) {
+                should.not.exist(error);
+                done();
+              } else {
+                should.exist(
+                  expenses,
+                  "Returning null as a response, should return all expenses"
+                );
+                expenses[expenses.length - 1].title.should.be.equal("test3");
+                done();
+              }
+            });
+          });
       });
     });
     // testsuit to update expense record
