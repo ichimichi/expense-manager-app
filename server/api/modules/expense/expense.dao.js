@@ -21,7 +21,36 @@ const getExpense = () => {
 
 const addExpense = (expense) => {
   return new Promise((resolve, reject) => {
-    expense.expenseDate = new Date();
+    if (Object.keys(expense).length === 0) {
+      reject({
+        message:
+          "Empty data is not allowed, please provide some valid data to insert record",
+        status: 500,
+      });
+    }
+
+    if (Object.keys(expense).length === 1 && expense.id) {
+      reject({
+        message: "Please provide some data to add new expense",
+        status: 500,
+      });
+    }
+
+    if (
+      !(
+        expense.id &&
+        expense.title &&
+        expense.category &&
+        expense.description &&
+        expense.amount
+      )
+    ) {
+      reject({
+        message:
+          "Please provide values for id ,title, category, description, amount and expenseDate. All are mandatory data elements",
+        status: 500,
+      });
+    }
 
     try {
       let data = fs.readFileSync(db, "utf8");
@@ -37,6 +66,7 @@ const addExpense = (expense) => {
         }
       });
 
+      expense.expenseDate = new Date();
       expenses.push(expense);
       data = JSON.stringify(expenses, null, 4);
 

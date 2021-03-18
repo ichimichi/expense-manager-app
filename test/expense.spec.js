@@ -23,6 +23,60 @@ const findExpense = (expenseId, done) => {
 
 // testsuit starts from here
 describe("Expense Manager testing", function () {
+  // to reset db.json after tests
+  after(function () {
+    try {
+      const expenses = [
+        {
+          id: "1",
+          title: "air ticket",
+          category: "fair",
+          description: "went to goa",
+          amount: "20000",
+          expenseDate: "26/05/2017",
+        },
+        {
+          id: "2",
+          title: "lunch with friends",
+          category: "fair",
+          description: "lunch with friends",
+          amount: "10000",
+          expenseDate: "01/03/2018",
+        },
+        {
+          id: "3",
+          title: "shopping for kid's",
+          category: "shopping",
+          description: "shopping with kid's",
+          amount: "8000",
+          expenseDate: "28/08/2017",
+        },
+        {
+          id: "4",
+          title: "medical bill for self",
+          category: "medical",
+          description: "dengu bill",
+          amount: "7000",
+          expenseDate: "18/11/2017",
+        },
+        {
+          id: "5",
+          title: "electricity bill",
+          category: "bill",
+          description: "jan bill",
+          amount: "4000",
+          expenseDate: "01/01/2018",
+        },
+      ];
+
+      const data = JSON.stringify(expenses, null, 4);
+
+      fs.writeFileSync(db, data, "utf8");
+    } catch (e) {
+      console.error(e);
+    }
+  });
+
   //testsuit for functionality testing
   describe("Functionality testing", function () {
     // testsuit for adding expense
@@ -37,11 +91,11 @@ describe("Expense Manager testing", function () {
           .expect(201)
           .expect("Content-Type", /json/)
           .send({
-            id: "6",
+            id: 6,
             title: "test3",
             category: "snacks",
             description: "bought tea and snakcs",
-            amount: "100",
+            amount: 100,
           })
           .end(function (err, res) {
             should.not.exist(err);
@@ -74,11 +128,11 @@ describe("Expense Manager testing", function () {
           .post("/api/expense")
           .expect("Content-Type", /json/)
           .send({
-            id: "6",
+            id: 6,
             title: "test3",
             category: "snacks",
             description: "bought tea and snakcs",
-            amount: "100",
+            amount: 100,
           })
           .end(function (err, res) {
             should.not.exist(err);
@@ -93,19 +147,52 @@ describe("Expense Manager testing", function () {
       it("Should not create expense if passing empty record, returning error message", function (done) {
         // write assertion code here and your response should return below given message
         //'Empty data is not allowed, please provide some valid data to insert record'
-        done();
+        request(app)
+          .post("/api/expense")
+          .expect("Content-Type", /json/)
+          .send({})
+          .end(function (err, res) {
+            should.not.exist(err);
+            res.body.message.should.be.equal(
+              "Empty data is not allowed, please provide some valid data to insert record",
+              "Response body should have a key as message which will hold value as username is already exist"
+            );
+            done();
+          });
       });
       // testcase to handle, if user is not passing any record in post body.
       it("Should not create expense if user is not passing any record in post request, returning error message", function (done) {
         // write assertion code here and your response should return below given message
         // 'Please provide some data to add new expense'
-        done();
+        request(app)
+          .post("/api/expense")
+          .expect("Content-Type", /json/)
+          .send({ id: 8 })
+          .end(function (err, res) {
+            should.not.exist(err);
+            res.body.message.should.be.equal(
+              "Please provide some data to add new expense",
+              "Response body should have a key as message which will hold value as username is already exist"
+            );
+            done();
+          });
       });
       // testcase to handle, if user is passing wrong key as a record.
       it("Should not create expense if user is passing wrong data, returning error message", function (done) {
         // write assertion code here and your response should return below given message
         // 'Please provide values for id ,title, category, description, amount and expenseDate. All are mandatory data elements'
-        done();
+        request(app)
+          .post("/api/expense")
+          .expect("Content-Type", /json/)
+          .send({ id: 8, amount: 100 })
+          .end(function (err, res) {
+            should.not.exist(err);
+            res.body.message.should.be.equal(
+              "Please provide values for id ,title, category, description, amount and expenseDate. All are mandatory data elements",
+              "Response body should have a key as message which will hold value as username is already exist"
+            );
+            done();
+          });
       });
     });
     // testsuit to get all expense record
