@@ -2,6 +2,7 @@ const should = require("chai").should();
 const request = require("supertest");
 const app = require("./../index");
 const fs = require("fs");
+// eslint-disable-next-line no-undef
 const db = `${process.cwd()}\\server\\db.json`;
 
 const findExpense = (expenseId, done) => {
@@ -36,6 +37,7 @@ const getExpenses = (done) => {
 // testsuit starts from here
 describe("Expense Manager testing", function () {
   // to reset db.json after tests
+  // eslint-disable-next-line no-undef
   after(function () {
     try {
       const expenses = [
@@ -85,6 +87,7 @@ describe("Expense Manager testing", function () {
 
       fs.writeFileSync(db, data, "utf8");
     } catch (e) {
+      // eslint-disable-next-line no-console
       console.error(e);
     }
   });

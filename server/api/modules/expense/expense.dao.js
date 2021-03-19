@@ -1,5 +1,7 @@
 const fs = require("fs");
+const { stringToDate } = require("../../../util/date");
 
+// eslint-disable-next-line no-undef
 const db = `${process.cwd()}\\server\\db.json`;
 
 const getExpense = () => {
@@ -90,7 +92,6 @@ const addExpense = (expense) => {
 const updateExpense = (id, updatedExpense) => {
   return new Promise((resolve, reject) => {
     try {
-      // convert JSON object to a string
       let data = fs.readFileSync(db, "utf8");
 
       const expenses = JSON.parse(data);
@@ -119,7 +120,6 @@ const updateExpense = (id, updatedExpense) => {
 const deleteExpense = (id) => {
   return new Promise((resolve, reject) => {
     try {
-      // convert JSON object to a string
       let data = fs.readFileSync(db, "utf8");
 
       let expenses = JSON.parse(data);
@@ -141,11 +141,60 @@ const deleteExpense = (id) => {
 };
 
 const getExpenseBetweenDates = (startDate, endDate) => {
-  // TODO
+  return new Promise((resolve, reject) => {
+    try {
+      let data = fs.readFileSync(db, "utf8");
+
+      let expenses = JSON.parse(data);
+
+      expenses = expenses.filter((expense) => {
+        const expenseDate = stringToDate(expense.expenseDate);
+
+        return (
+          expenseDate.getTime() >= startDate.getTime() &&
+          (endDate == "Invalid Date" ||
+            expenseDate.getTime() <= endDate.getTime())
+        );
+      });
+
+      resolve({
+        message: "Successfully Retrieved all Expenses between given dates",
+        expenses: expenses,
+        status: 200,
+      });
+    } catch (err) {
+      reject({ message: "Internal Server Error", status: 500 });
+    }
+  });
 };
 
 const getExpenseByCatergoryBetweenDates = (category, startDate, endDate) => {
-  // TODO
+  return new Promise((resolve, reject) => {
+    try {
+      let data = fs.readFileSync(db, "utf8");
+
+      let expenses = JSON.parse(data);
+
+      expenses = expenses.filter((expense) => {
+        const expenseDate = stringToDate(expense.expenseDate);
+
+        return (
+          expense.category == category &&
+          expenseDate.getTime() >= startDate.getTime() &&
+          (endDate == "Invalid Date" ||
+            expenseDate.getTime() <= endDate.getTime())
+        );
+      });
+
+      resolve({
+        message: "Successfully Retrieved all Expenses between given dates",
+        expenses: expenses,
+        status: 200,
+      });
+    } catch (err) {
+      reject({ message: "Internal Server Error", status: 500 });
+    }
+  });
 };
 
 module.exports = {

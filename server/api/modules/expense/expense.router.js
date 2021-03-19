@@ -1,4 +1,5 @@
 const router = require("express").Router();
+const { stringToDate } = require("../../../util/date");
 const expenseController = require("./expense.controller");
 
 router.get("/", (req, res) => {
@@ -48,8 +49,8 @@ router.delete("/:id", (req, res) => {
 router.get("/:start/:end?", (req, res) => {
   expenseController
     .getExpenseBetweenDates(
-      new Date(req.params.start),
-      new Date(req.params.end)
+      stringToDate(req.params.start),
+      stringToDate(req.params.end)
     )
     .then((response) => {
       res.status(response.status).send(response);
@@ -59,12 +60,12 @@ router.get("/:start/:end?", (req, res) => {
     });
 });
 
-router.get(":category/:start/:end?", (req, res) => {
+router.get("/:category/:start/:end?", (req, res) => {
   expenseController
-    .getExpenseBetweenDates(
+    .getExpenseByCatergoryBetweenDates(
       req.params.category,
-      new Date(req.params.start),
-      new Date(req.params.end)
+      stringToDate(req.params.start),
+      stringToDate(req.params.end)
     )
     .then((response) => {
       res.status(response.status).send(response);
