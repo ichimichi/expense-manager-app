@@ -1,5 +1,8 @@
 ## Expense Manager
+
 This is the Expense Manager app. Using this app , user can add, get, update, delete and find his expense.
+
+[Link to API reference](https://gitlab-nht.stackroute.in/Laribok.Syiemlieh/expense_manager_app/-/blob/master/API.md)
 
 ### How to run this project
 
@@ -9,7 +12,7 @@ This is the Expense Manager app. Using this app , user can add, get, update, del
 npm install
 ```
 
-or 
+or
 
 ```
 yarn
@@ -32,4 +35,3 @@ npm run test
 ```
 npm run lint
 ```
-
